@@ -1,14 +1,22 @@
 import { BaseEntity, PrimaryGeneratedColumn, Column, Entity, Index, OneToMany, ManyToOne } from 'typeorm'
 import User from '../users/entity'
 
-export type Symbol = 'x' | 'o'
-export type Row = [ Symbol | null, Symbol | null, Symbol | null ]
-export type Board = [ Row, Row, Row ]
+export type Color = 'red' | 'blue'
+export type redRow = [ 'red', 'red', 'red' ]
+export type emptyRow = [null, null, null]
+export type blueRow = [ 'blue', 'blue', 'blue']
+export type Board = [ redRow, emptyRow, blueRow ]
 
 type Status = 'pending' | 'started' | 'finished'
 
-const emptyRow: Row = [null, null, null]
-const emptyBoard: Board = [ emptyRow, emptyRow, emptyRow ]
+// export default const Pieces = () =>  {
+//   return [['F', 'B', '5', '9', '1', 'S', '6', '8', '8', '9'],
+//           ['B', 'B', '9', '5', '3', '2', '8', '7', '9', '9'],
+//           ['7', '5', '4', '8', '6', '4', '4', '8', '3', '7'],
+//           ['B', '7', 'B', '5', '9', '6', '6', '9', '9', 'B']];
+// };
+
+//const emptyBoard: Board = [ emptyRow, emptyRow, emptyRow ] // wij hebben geen emptyBoard, eerder een defaultBoard
 
 @Entity()
 export class Game extends BaseEntity {
@@ -16,14 +24,14 @@ export class Game extends BaseEntity {
   @PrimaryGeneratedColumn()
   id?: number
 
-  @Column('json', {default: emptyBoard})
+  @Column('json')
   board: Board
 
-  @Column('char', {length:1, default: 'x'})
-  turn: Symbol
+  @Column('text', {default: 'red'})
+  turn: Color
 
-  @Column('char', {length:1, nullable: true})
-  winner: Symbol
+  @Column('text', {nullable: true})
+  winner: Color
 
   @Column('text', {default: 'pending'})
   status: Status
@@ -35,7 +43,7 @@ export class Game extends BaseEntity {
 }
 
 @Entity()
-@Index(['game', 'user', 'symbol'], {unique:true})
+@Index(['game', 'user', 'color'], {unique:true})
 export class Player extends BaseEntity {
 
   @PrimaryGeneratedColumn()
@@ -48,8 +56,9 @@ export class Player extends BaseEntity {
   game: Game
 
   @Column()
-  userId: number
+  userId: number // comment these lines out when you start the game 
 
-  @Column('char', {length: 1})
-  symbol: Symbol
-}
+  @Column('text',{nullable: true})
+  color: Color
+
+};
