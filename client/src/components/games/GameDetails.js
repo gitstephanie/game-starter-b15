@@ -4,7 +4,6 @@ import {Redirect} from 'react-router-dom'
 import {getGames, joinGame, updateGame} from '../../actions/games'
 import {getUsers} from '../../actions/users'
 import {userId} from '../../jwt'
-import Paper from 'material-ui/Paper'
 import Board from './Board'
 import './GameDetails.css'
 
@@ -49,7 +48,7 @@ class GameDetails extends PureComponent {
       .filter(p => p.color === game.winner)
       .map(p => p.userId)[0]
 
-    return (<Paper className="outer-paper">
+    return (<div className="outer-paper">
       <h1>Game #{game.id}</h1>
 
       <p>Status: {game.status}</p>
@@ -77,7 +76,7 @@ class GameDetails extends PureComponent {
         game.status !== 'pending' &&
         <Board board={game.board} makeMove={this.makeMove} />
       }
-    </Paper>)
+    </div>)
   }
 }
 

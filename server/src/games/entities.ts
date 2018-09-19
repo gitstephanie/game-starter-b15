@@ -1,11 +1,21 @@
 import { BaseEntity, PrimaryGeneratedColumn, Column, Entity, Index, OneToMany, ManyToOne } from 'typeorm'
 import User from '../users/entity'
 
+const numbers = [1, 2, 3]
+const shuffledValue = numbers.sort(() => Math.random() - 0.5);
+
+export const Pawn = {
+  color: Color
+  value: shuffledValue
+}
 export type Color = 'red' | 'blue'
-export type redRow = [ 'red', 'red', 'red' ]
-export type emptyRow = [null, null, null]
-export type blueRow = [ 'blue', 'blue', 'blue']
+export type redRow = [ Pawn, Pawn, Pawn ]
+export type emptyRow = ['', '', '']
+export type blueRow = [ Pawn, Pawn, Pawn ]
 export type Board = [ redRow, emptyRow, blueRow ]
+
+const defaultBoard: Board = [[1,2,3], ['','',''],[1,2,3]];
+
 
 type Status = 'pending' | 'started' | 'finished'
 
@@ -24,7 +34,7 @@ export class Game extends BaseEntity {
   @PrimaryGeneratedColumn()
   id?: number
 
-  @Column('json')
+  @Column('json', {default: defaultBoard})
   board: Board
 
   @Column('text', {default: 'red'})
@@ -55,10 +65,9 @@ export class Player extends BaseEntity {
   @ManyToOne(_ => Game, game => game.players)
   game: Game
 
-  @Column()
-  userId: number // comment these lines out when you start the game 
+  // @Column()
+  // userId: number // comment these lines out when you start the game 
 
   @Column('text',{nullable: true})
   color: Color
-
 };

@@ -1,5 +1,5 @@
 import { ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator'
-import { Board } from './entities'
+import { Board, Color, Pawn} from './entities'
 
 @ValidatorConstraint()
 export class IsBoard implements ValidatorConstraintInterface {
@@ -20,9 +20,16 @@ export const isValidTransition = (color, board1, board2) => {
 // We hebben andere logica nodig om winnaar te bepalen
  export const calculateWinner = (board: Board): boolean =>
   board
- .every(color => color !== null)
-     
+  .map(
+    (row) => row.map((tile) => ({
+      tile.every(
+    if player.color && !player.pawn.includes(3) {
+      return winner === !player.color
+    }
+  ),
+  
 
- export const finished = (board: Board): boolean =>
-   board
-     .every(color => color !== null)
+  // finished: geen moves meer mogelijk / er is een winnaar
+ export const finished = () =>
+   calculateWinner(board) === true 
+  
