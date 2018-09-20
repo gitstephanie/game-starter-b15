@@ -4,7 +4,7 @@ import {
 } from 'routing-controllers'
 import User from '../users/entity'
 import { Game, Player, Board} from './entities'
-import {IsBoard, isValidTransition} from './logic'
+import {IsBoard} from './logic'
 import { Validate } from 'class-validator'
 import {io} from '../index'
 
@@ -89,9 +89,18 @@ export default class GameController {
     if (!player) throw new ForbiddenError(`You are not part of this game`)
     if (game.status !== 'started') throw new BadRequestError(`The game is not started yet`)
     if (player.color !== game.turn) throw new BadRequestError(`It's not your turn`)
-    if (!isValidTransition(player.color, game.board, update.board)) {
-      throw new BadRequestError(`Invalid move`)
-    }    
+    
+    game.board = update.board
+    
+    await game.save()
+    
+    io.emit('action', {
+    type: 'UPDATE_GAME',
+    payload: game
+    })
+
+    return game
+    
 
     // const winner = calculateWinner(update.board)
     // if (winner) {

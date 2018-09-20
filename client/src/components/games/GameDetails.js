@@ -30,11 +30,8 @@ class GameDetails extends PureComponent {
     updateGame(game.id, board)
   }
 
-
-
   render() {
     const {game, users, authenticated, userId} = this.props
-
     if (!authenticated) return (
 			<Redirect to="/login" />
 		)
@@ -57,7 +54,7 @@ class GameDetails extends PureComponent {
         game.status === 'started' &&
         player && player.color === game.turn &&
         <div>It's your turn!</div>
-      }
+      } 
 
       {
         game.status === 'pending' &&
@@ -72,7 +69,7 @@ class GameDetails extends PureComponent {
 
       {
         game.status !== 'pending' &&
-        <Board board={game.board} makeMove={this.makeMove} />
+        <Board board={game.board} player={game.players} makeMove={this.makeMove} />
       }
     </div>)
   }

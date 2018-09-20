@@ -1,21 +1,35 @@
 import React from 'react'
 import './Board.css'
 
-const renderCel = (makeMove, rowIndex, cellIndex, color, hasTurn) => {
 
+
+const renderCel = (makeMove, rowIndex, cellIndex, color, player, hasTurn,) => {
+  
+
+  if (color !== null)
+  {
   return (
     <button
       className="board-tile"
       disabled={hasTurn}
       onClick={() => makeMove(rowIndex, cellIndex)}
-      key={`${rowIndex}-${cellIndex}`}
-    >{color || null }</button>
+      key={`${rowIndex}-${cellIndex}`}>
+      {color.value}
+      </button>
+  ) 
+} 
+  return (
+  <button
+  className="board-tile"
+  disabled={hasTurn}
+  onClick={() => makeMove(rowIndex, cellIndex)}
+  key={`${rowIndex}-${cellIndex}`}
+>{color}</button>
   )
 }
 
-// Hoe krijgen we het board hier?
-export default ({board, makeMove}) => board.map((cells, rowIndex) =>
+export default ({board, player, makeMove}) => board.map((cells, rowIndex) =>
   <div key={rowIndex}>
-    {cells.map((color, cellIndex) => renderCel(makeMove, rowIndex, cellIndex, color, false))}
+    {cells.map((color, cellIndex) => renderCel(makeMove, rowIndex, cellIndex, color, player, false))}
   </div>
 )

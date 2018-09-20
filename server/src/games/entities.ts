@@ -1,29 +1,55 @@
 import { BaseEntity, PrimaryGeneratedColumn, Column, Entity, Index, OneToMany, ManyToOne } from 'typeorm'
 import User from '../users/entity'
 
-//const numbers = [1, 2, 3]
-//const shuffledValue = numbers.sort(() => Math.random() - 0.5);
-
-
 export type Color = 'red' | 'blue'
-export type redRow = [ number, number, number]
-export type emptyRow = ['', '', '']
-export type blueRow = [ number, number, number]
-export type Board = [ redRow, emptyRow, blueRow ]
+export type Pawn = {name: 'bomb', value: 0, team: 'red' | 'blue'} | null
+export type Piece = {
+  name: 'marshall',
+  value: 3,
+  team: 'red'|'blue'
+} | {
+  name: 'captain',
+  value: 2,
+  team: 'red'|'blue'
+} | {
+  name: 'soldier',
+  value: 1,
+  team: 'red'|'blue'
+} | {
+  name: 'bomb',
+  value: 0,
+  team: 'red'|'blue'
+} | {
+  name: 'flag',
+  value: -1,
+  team: 'red'|'blue'
+}
 
-const defaultBoard: Board = [[1,2,3], ['','',''],[1,2,3]];
 
+export type Pieces = [Piece, Piece, Piece]
+export type PiecesRedBlue = {red: Pieces, blue: Pieces}
+
+export type Row = [Piece | Pawn | null, Piece | Pawn | null, 
+                   Piece | Pawn | null, Piece | Pawn | null, 
+                   Piece | Pawn | null, Piece | Pawn | null ]
+export type Board = [Row, Row, Row, Row, Row, Row]
+
+
+const row1: Row = [{name: 'marshall', value: 3, team: 'red'}, {name: 'flag', value: -1, team: 'red',}, {name: 'captain', value: 2, team: 'red'}, 
+                    {name: 'soldier', value: 1, team: 'red'}, {name: 'captain', value: 2, team: 'red'}, {name: 'soldier', value: 1, team: 'red'}];
+const row2: Row = [{name: 'captain', value: 2, team: 'red'}, {name: 'bomb', value: 0, team: 'red'}, {name: 'marshall', value: 3, team: 'red'}, 
+                    {name: 'soldier', value: 1, team: 'red'}, {name: 'bomb', value: 0, team: 'red'}, {name: 'bomb', value: 0, team: 'red'}];
+const emptyRow: Row = [null, null, null, null, null, null]
+const row5: Row = [{name: 'soldier', value: 1, team: 'blue'}, {name: 'captain',value: 2, team: 'blue'}, {name: 'bomb', value: 0,  team: 'blue'}, 
+                   {name: 'marshall', value: 3, team: 'blue'}, {name: 'bomb', value: 0, team: 'blue'}, {name: 'marshall', value: 3, team: 'blue'}]
+const row6: Row = [{name: 'marshall', value: 3, team: 'blue'}, {name: 'soldier', value: 1, team: 'blue'}, {name: 'captain', value: 2, team: 'blue'}, 
+                  {name: 'flag', value: -1, team: 'blue'}, {name: 'soldier', value: 1, team: 'blue'}, {name: 'captain', value: 2, team: 'blue'}]
+
+const startBoard: Board = [ 
+  row1, row2,emptyRow, emptyRow, row5, row6
+]
 
 type Status = 'pending' | 'started' | 'finished'
-
-// export default const Pieces = () =>  {
-//   return [['F', 'B', '5', '9', '1', 'S', '6', '8', '8', '9'],
-//           ['B', 'B', '9', '5', '3', '2', '8', '7', '9', '9'],
-//           ['7', '5', '4', '8', '6', '4', '4', '8', '3', '7'],
-//           ['B', '7', 'B', '5', '9', '6', '6', '9', '9', 'B']];
-// };
-
-//const emptyBoard: Board = [ emptyRow, emptyRow, emptyRow ] // wij hebben geen emptyBoard, eerder een defaultBoard
 
 @Entity()
 export class Game extends BaseEntity {
@@ -31,7 +57,7 @@ export class Game extends BaseEntity {
   @PrimaryGeneratedColumn()
   id?: number
 
-  @Column('json', {default: defaultBoard})
+  @Column('json', {default: startBoard})
   board: Board
 
   @Column('text', {default: 'red'})
