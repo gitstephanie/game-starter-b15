@@ -1,12 +1,13 @@
 import React from 'react'
-import AppBar from 'material-ui/AppBar'
-import Toolbar from 'material-ui/Toolbar'
-import Typography from 'material-ui/Typography'
-import Button from 'material-ui/Button'
-import {withRouter} from 'react-router'
-import {userId} from '../../jwt'
-import {connect} from 'react-redux'
-import AccountIcon from 'material-ui-icons/AccountBox'
+import AppBar from '@material-ui/core/AppBar'
+import Typography from '@material-ui/core/Typography'
+import {withRouter} from 'react-router';
+import {userId} from '../../jwt';
+import {connect} from 'react-redux';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import Toolbar from '@material-ui/core/Toolbar';
+
 
 const TopBar = (props) => {
   const { location, history, user } = props
@@ -19,7 +20,7 @@ const TopBar = (props) => {
         </Typography>
         {
           user &&
-          <Button color="inherit"><AccountIcon /> { user.firstName }</Button>
+          <Button color="inherit"><IconButton /> { user.firstName }</Button>
         }
 
         {

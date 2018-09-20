@@ -3,11 +3,11 @@ import {getGames, createGame} from '../../actions/games'
 import {getUsers} from '../../actions/users'
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom'
-import Button from 'material-ui/Button'
-import Paper from 'material-ui/Paper'
-import Card, { CardActions, CardContent } from 'material-ui/Card'
-import Typography from 'material-ui/Typography'
 import './GamesList.css'
+import Card, {CardActions, CardContent} from '@material-ui/core/Card';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 
 class GamesList extends PureComponent {
   componentWillMount() {
