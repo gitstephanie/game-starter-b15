@@ -4,7 +4,7 @@ import {
 } from 'routing-controllers'
 import User from '../users/entity'
 import { Game, Player, Board} from './entities'
-import {IsBoard, isValidTransition, calculateWinner, finished} from './logic'
+import {IsBoard, isValidTransition} from './logic'
 import { Validate } from 'class-validator'
 import {io} from '../index'
 
@@ -93,27 +93,27 @@ export default class GameController {
       throw new BadRequestError(`Invalid move`)
     }    
 
-    const winner = calculateWinner(update.board)
-    if (winner) {
-      game.winner = player.color
-      game.status = 'finished'
+    // const winner = calculateWinner(update.board)
+    // if (winner) {
+    //   game.winner = player.color
+    //   game.status = 'finished'
+    // }
+    // else if (finished()) {
+    //   game.status = 'finished'
     }
-    else if (finished(update.board)) {
-      game.status = 'finished'
-    }
-    else {
-      game.turn = player.color === 'red' ? 'blue' : 'red'
-    }
-    game.board = update.board
-    await game.save()
+  //   else {
+  //     game.turn = player.color === 'red' ? 'blue' : 'red'
+  //   }
+  //   game.board = update.board
+  //   await game.save()
     
-    io.emit('action', {
-      type: 'UPDATE_GAME',
-      payload: game
-    })
+  //   io.emit('action', {
+  //     type: 'UPDATE_GAME',
+  //     payload: game
+  //   })
 
-    return game
-  }
+  //   return game
+  // }
 
   @Authorized()
   @Get('/games/:id([0-9]+)')

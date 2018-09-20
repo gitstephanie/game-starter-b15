@@ -70,8 +70,6 @@ class GameDetails extends PureComponent {
         <p>Winner: {users[winner].firstName}</p>
       }
 
-      <hr />
-
       {
         game.status !== 'pending' &&
         <Board board={game.board} makeMove={this.makeMove} />

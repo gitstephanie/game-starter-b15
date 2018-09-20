@@ -2,5 +2,20 @@
   margin-top: 20px;
   margin: auto;
   padding: 20px;
-  width: 60%;
+  width: 100%;
+}
+
+main {
+  height: 620px;
+  width: relative;
+  background-image: url('./images/stratego.jpg');
+  background-repeat: no-repeat;
+}
+
+h1 {
+  color: whitesmoke
+}
+
+p {
+  color: whitesmoke
 }
